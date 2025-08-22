@@ -1,0 +1,29 @@
+# Gradle
+.gradle/
+/build/
+**/build/
+
+# Local configuration
+local.properties
+
+# Android Studio
+.idea/
+*.iml
+.misc/
+
+# Logs
+*.log
+
+# Keystore files
+*.jks
+*.keystore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Generated icons
+app/src/main/res/mipmap-*/ic_launcher*zip
+
+# Gradle Wrapper JAR can be checked in or generated locally
+# gradle/wrapper/gradle-wrapper.jar
