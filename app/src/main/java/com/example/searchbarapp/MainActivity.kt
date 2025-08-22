@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -35,23 +36,38 @@ fun SearchBarApp() {
 
 	MaterialTheme {
 		Surface(modifier = Modifier.fillMaxSize()) {
-			Scaffold { innerPadding ->
-				SearchBar(
-					modifier = Modifier
-						.padding(innerPadding)
-						.padding(16.dp),
-					query = query,
-					onQueryChange = { query = it },
-					onSearch = { active = false },
-					active = active,
-					onActiveChange = { active = it },
-					placeholder = { Text(text = "Search…") }
-				) {
-					searchResults.forEach { result ->
-						Text(text = result, modifier = Modifier.padding(12.dp))
+			Scaffold(
+				bottomBar = {
+					SearchBar(
+						modifier = Modifier
+							.padding(16.dp),
+						query = query,
+						onQueryChange = { query = it },
+						onSearch = { active = false },
+						active = active,
+						onActiveChange = { active = it },
+						placeholder = { Text(text = "Search…") }
+					) {
+						// Results are shown in content area above; keep suggestions area empty or minimal
 					}
 				}
+			) { innerPadding ->
+				// Show results or placeholder content above the bottom SearchBar
+				scrollableResults(innerPadding, searchResults)
 			}
+		}
+	}
+}
+
+@Composable
+private fun scrollableResults(innerPadding: PaddingValues, results: List<String>) {
+	androidx.compose.foundation.lazy.LazyColumn(
+		modifier = Modifier
+			.padding(innerPadding)
+			.padding(16.dp)
+	) {
+		items(results.size) { index ->
+			Text(text = results[index], modifier = Modifier.padding(12.dp))
 		}
 	}
 }
